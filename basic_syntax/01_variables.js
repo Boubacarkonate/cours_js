@@ -5,5 +5,6 @@ console.log(age);
 age = 30;
 console.log(age);
 
-const constante = 'Je suis une contente';
+//variables non modifiable 
+const constante = 'Je suis une constante';
 console.log(constante);
