@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div id="calendarContainer"></div>
+
+    <script>
+        function createCalendar(year, month) {
+            const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+                "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+
+            const currentDate = new Date(year, month - 1); // Le mois est 0-indexé, donc on soustrait 1
+
+            const firstDayOfMonth = new Date(year, month - 1, 1);
+            const startingDayOfWeek = firstDayOfMonth.getDay(); // Jour de la semaine du premier jour du mois
+            const daysInMonth = new Date(year, month, 0).getDate(); // Nombre de jours dans le mois
+
+            let calendarHTML = `<h2>${monthNames[currentDate.getMonth()]} ${year}</h2>`;
+            calendarHTML += "<table>";
+
+            // En-têtes de jours de la semaine
+            calendarHTML += "<tr>";
+            const weekDays = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
+            for (let day of weekDays) {
+                calendarHTML += `<th>${day}</th>`;
+            }
+            calendarHTML += "</tr>";
+
+            // Espace pour le premier jour du mois
+            calendarHTML += "<tr>";
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                calendarHTML += "<td></td>";
+            }
+
+            let dayOfMonth = 1;
+            // Remplissage des jours du mois
+            for (let i = startingDayOfWeek; i < 7; i++) {
+                calendarHTML += `<td>${dayOfMonth}</td>`;
+                dayOfMonth++;
+            }
+            calendarHTML += "</tr>";
+
+            while (dayOfMonth <= daysInMonth) {
+                calendarHTML += "<tr>";
+                for (let i = 0; i < 7 && dayOfMonth <= daysInMonth; i++) {
+                    calendarHTML += `<td>${dayOfMonth}</td>`;
+                    dayOfMonth++;
+                }
+                calendarHTML += "</tr>";
+            }
+
+            calendarHTML += "</table>";
+
+            return calendarHTML;
+        }
+
+        // Affichage du calendrier pour le mois et l'année actuels
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const currentMonth = today.getMonth() + 1; // Les mois sont 0-indexés, donc on ajoute 1
+
+        const calendarContainer = document.getElementById("calendarContainer");
+        calendarContainer.innerHTML = createCalendar(currentYear, currentMonth);
+    </script>
+</body>
+</html>
